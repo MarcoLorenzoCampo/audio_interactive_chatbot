@@ -2,11 +2,13 @@ from translator import Translator
 import openai
 import sys
 from speaker import Speaker
+import os
 
 
 messages = []
 
 def main():
+    openai.api_key = get_key()
     chat()
     return
 
@@ -56,6 +58,10 @@ def speak(answer):
 def record_voice():
     translator = Translator()
     return translator.record_and_translate(duration = 10)
+
+def get_key():
+    key = os.environ.get("OPENAI_API_KEY")
+    return key
 
 
 if __name__ == '__main__':
