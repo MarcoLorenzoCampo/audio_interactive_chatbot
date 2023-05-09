@@ -4,27 +4,27 @@ import sys
 from speaker import Speaker
 import os
 
+def set_speak_mode():
+    sys.argv.append('--speak')
 
-messages = []
-
-def main():
-    openai.api_key = get_key()
-    chat()
-    return
-
+def set_record_mode():
+    sys.argv.append('--record')
 
 def chat():
     speak_mode = '--speak' in sys.argv
-    talk_mode = '--talk' in sys.argv
+    record_mode = '--record' in sys.argv
+    question = ''
 
-    while True:
-        if talk_mode:
+    messages = []
+
+    while question != "quit":
+        if record_mode:
             question = record_voice()
             print(f'>> {question}')
         else:
             question = input('>> ')
 
-        reply = send_to_open_ai(question)
+        reply = send_to_open_ai(question, messages)[-1]
 
         print(f'ChatGPT said: {reply}')
 
@@ -33,7 +33,7 @@ def chat():
 
 
 # This function simply allows to send a TEXT message to ChatGpt and print the response.
-def send_to_open_ai(question):
+def send_to_open_ai(question, messages):
     
     messages.append({"role":"user", "content": question})
 
@@ -46,23 +46,15 @@ def send_to_open_ai(question):
     reply = response["choices"][0]['message']['content']
     messages.append({"role":"assistant", "content":reply})
 
-    return reply
-
+    return messages
 
 def speak(answer):
-    Speaker().speak(answer)
-
-
+    Speaker().speak(answer) 
 
 # Function to record, for example for 3 seconds
 def record_voice():
     translator = Translator()
     return translator.record_and_translate(duration = 10)
 
-def get_key():
-    key = os.environ.get("OPENAI_API_KEY")
-    return key
-
-
-if __name__ == '__main__':
-    main()
+def set_key():
+    openai.api_key = os.environ.get("OPENAI_API_KEY")

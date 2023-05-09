@@ -1,7 +1,7 @@
 import pyttsx3
 
 class Speaker:
-    def __init__(self, rate=200, volume=1.0, voice=None):
+    def __init__(self, rate=170, volume=1.0, voice=None):
         self.engine = pyttsx3.init()
         self.engine.setProperty('rate', rate)
         self.engine.setProperty('volume', volume)
