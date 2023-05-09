@@ -4,7 +4,7 @@ This is an AI-powered chatbot that can interact with users via text-based input 
 Audio based communication can only happen in english as things stand now.
 
 ## Getting started
-### Prerequisited
+### Prerequisites
 
 To run this chatbot you will need:
 
