@@ -1,9 +1,10 @@
 # Audio Interactive Chatbot
 
 This is an AI-powered chatbot that can interact with users via text-based input or audio input. The chatbot uses OpenAI's GPT-3.5-turbo model to generate responses to users' inputs.
+Audio based communication can only happen in english as things stand now.
 
 ## Getting started
-### Prerequisited
+### Prerequisites
 
 To run this chatbot you will need:
 
