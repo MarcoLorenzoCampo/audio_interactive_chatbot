@@ -39,8 +39,9 @@ export OPENAI_API_KEY = "your_key_value"
 ```
 
  2. Run the chatbot_logic.py script with the necessary parameters:
+
  ```bash
-python chatbot_logic.py [--speak] [--talk]
+python gui.py [--speak] [--talk]
 ```
 
 * The --speak flag will produce a text-to-speech playback of the AI's responses to your inputs.
