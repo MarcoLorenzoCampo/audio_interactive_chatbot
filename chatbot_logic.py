@@ -4,36 +4,32 @@ import sys
 from speaker import Speaker
 import os
 
-def set_speak_mode():
-    sys.argv.append('--speak')
+messages = []
 
-def set_record_mode():
-    sys.argv.append('--record')
+def get_messages():
+    return messages
 
 def chat():
     speak_mode = '--speak' in sys.argv
     record_mode = '--record' in sys.argv
-    question = ''
+    question = ''    
 
-    messages = []
+    if record_mode:
+        question = record_voice()
+        print(f'>> {question}')
+    else:
+        question = input('>> ')
 
-    while question != "quit":
-        if record_mode:
-            question = record_voice()
-            print(f'>> {question}')
-        else:
-            question = input('>> ')
+    reply = send_to_open_ai(question)[-1]
 
-        reply = send_to_open_ai(question, messages)[-1]
+    print(f'ChatGPT said: {reply}')
 
-        print(f'ChatGPT said: {reply}')
-
-        if speak_mode:
-            speak(reply)
+    if speak_mode:
+        speak(reply)
 
 
 # This function simply allows to send a TEXT message to ChatGpt and print the response.
-def send_to_open_ai(question, messages):
+def send_to_open_ai(question):
     
     messages.append({"role":"user", "content": question})
 
@@ -46,7 +42,7 @@ def send_to_open_ai(question, messages):
     reply = response["choices"][0]['message']['content']
     messages.append({"role":"assistant", "content":reply})
 
-    return messages
+    return reply
 
 def speak(answer):
     Speaker().speak(answer) 
@@ -58,3 +54,19 @@ def record_voice():
 
 def set_key():
     openai.api_key = os.environ.get("OPENAI_API_KEY")
+
+def set_speak_mode():
+    if '--speak' in sys.argv:
+        sys.argv.remove('--speak')
+        return 'Talking mode inactive'
+    else:
+        sys.argv.append('--speak')
+        return 'Talking mode active'
+
+def set_record_mode():
+    if '--record' in sys.argv:
+        sys.argv.remove('--record')
+        return 'Recording mode inactive'
+    else:
+        sys.argv.append('--record')
+        return 'Recording mode active'
