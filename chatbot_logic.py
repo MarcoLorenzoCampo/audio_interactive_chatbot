@@ -5,31 +5,21 @@ import os
 import sys
 
 class Chatbot:
+    
     def __init__(self):
         self.messages = []
 
     def get_messages(self):
         return self.messages
-
-    def chat(self):
-        speak_mode = '--speak' in sys.argv
-        record_mode = '--record' in sys.argv
-        question = ''
-
-        if record_mode:
-            question = self.record_voice()
-            print(f'>> {question}')
-        else:
-            question = input('>> ')
-
-        reply = self.send_to_open_ai(question)[-1]
-
-        print(f'ChatGPT said: {reply}')
-
-        if speak_mode:
-            self.speak(reply)
+    
+    def speak(self, answer):
+        Speaker().speak(answer)
 
     def send_to_open_ai(self, question):
+
+        speak_mode = '--speak' in sys.argv
+        record_mode = '--record' in sys.argv
+
         self.messages.append({"role": "user", "content": question})
 
         response = openai.ChatCompletion.create(
@@ -41,10 +31,10 @@ class Chatbot:
         reply = response["choices"][0]['message']['content']
         self.messages.append({"role": "assistant", "content": reply})
 
-        return reply
+        if(speak_mode):
+            self.speak(reply)
 
-    def speak(self, answer):
-        Speaker().speak(answer)
+        return reply
 
     def record_voice(self):
         translator = Translator()

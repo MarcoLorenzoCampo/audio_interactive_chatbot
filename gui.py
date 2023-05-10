@@ -42,6 +42,7 @@ class GUI:
             self.chat_box.insert(tk.END, ">> ", "bold")
             self.chat_box.insert(tk.END, question + '\n')
             self.input_box.delete(0, tk.END)
+            
             self.chat_box.insert(tk.END, '\n' + 'ChatGpt: ' + self.chatbot.send_to_open_ai(question) + '\n')
 
         self.send_button = tk.Button(self.bottom_panel, text="Send", command=send_question,
