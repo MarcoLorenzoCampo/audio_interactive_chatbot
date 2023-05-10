@@ -13,7 +13,7 @@ class Translator:
             try:
                 text = self.recognizer.recognize_google(audio)
                 #print("Translated text:", text)
-                return(text)
+                return(str(text))
             except sr.UnknownValueError:
                 print("Could not understand audio")
             except sr.RequestError as e:

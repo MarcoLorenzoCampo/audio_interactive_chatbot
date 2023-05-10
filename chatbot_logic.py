@@ -61,3 +61,11 @@ class Chatbot:
         else:
             sys.argv.append('--record')
             return 'Recording mode active'
+
+'''
+def main():
+    translator = Translator()
+    print(type(translator.record_and_translate(duration=2)))
+
+main()
+'''
