@@ -1,10 +1,11 @@
 import tkinter as tk
-from chatbot_logic import set_key, chat, set_speak_mode, set_record_mode, send_to_open_ai, get_messages
-
+from chatbot_logic import Chatbot
+#from chatbot_logic import set_key, chat, set_speak_mode, set_record_mode, send_to_open_ai, get_messages
 
 class GUI:
-    def __init__(self):
+    def __init__(self, chatbot):
         self.root = tk.Tk()
+        self.chatbot = chatbot
         self.chat_box = None
         self.bottom_panel = None
         self.input_box = None
@@ -41,7 +42,7 @@ class GUI:
             self.chat_box.insert(tk.END, ">> ", "bold")
             self.chat_box.insert(tk.END, question + '\n')
             self.input_box.delete(0, tk.END)
-            self.chat_box.insert(tk.END, '\n' + 'ChatGpt: ' + send_to_open_ai(question) + '\n')
+            self.chat_box.insert(tk.END, '\n' + 'ChatGpt: ' + self.chatbot.send_to_open_ai(question) + '\n')
 
         self.send_button = tk.Button(self.bottom_panel, text="Send", command=send_question,
                                      bg="#999999", fg="#ffffff", font=("Helvetica", 12))
@@ -49,7 +50,7 @@ class GUI:
 
     def create_talk_button(self):
         def on_talk_button_pressed():
-            output = set_speak_mode()
+            output = self.chatbot.set_speak_mode()
             self.chat_box.insert(tk.END, '\n' + output)
 
         # create talk button
@@ -59,7 +60,7 @@ class GUI:
 
     def create_record_button(self):
         def on_record_button_pressed():
-            output = set_record_mode()
+            output = self.chatbot.set_record_mode()
             self.chat_box.insert(tk.END, '\n' + output)
 
         # create record button
@@ -98,6 +99,7 @@ class GUI:
 
 
 if __name__ == '__main__':
-    set_key()
-    gui = GUI()
+    chatbot = Chatbot()
+    chatbot.set_key()
+    gui = GUI(chatbot)
     gui.run_gui()
