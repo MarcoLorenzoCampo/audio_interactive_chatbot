@@ -46,3 +46,5 @@ python gui.py [--speak] [--talk]
 
 * The --speak flag will produce a text-to-speech playback of the AI's responses to your inputs.
 * The --talk flag will give you a time window to produce a question via speech input.
+
+Flags are not mandatory since their value can be updated in gui as well.
